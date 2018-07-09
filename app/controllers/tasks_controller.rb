@@ -4,10 +4,14 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:destroy]
   
    def index
-      @tasks = Task.order(created_at: :desc).page(params[:page]).per(3)
+      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
+      
+     
+      
    end
    
    def show
+      
    end
    
    def new
@@ -54,6 +58,7 @@ class TasksController < ApplicationController
    def task_params
       params.require(:task).permit(:content, :status)
    end
+   
    def correct_user
     @micropost = current_user.tasks.find_by(id: params[:id])
     unless @task
